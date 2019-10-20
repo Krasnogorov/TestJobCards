@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI
@@ -10,12 +11,16 @@ namespace UI
     /// </summary>
     public class MainMenu : MonoBehaviour
     {
+        /// link to animated cube
         [SerializeField]
         private GameObject _cube = null;
+        /// link to settings button
         [SerializeField]
         private Button _settingsButton = null;
+        /// link to achievement button
         [SerializeField]
         private Button _achievementButton = null;
+        /// link to about button
         [SerializeField]
         private Button _aboutButton = null;
 
@@ -42,21 +47,28 @@ namespace UI
                 {
                     if (hit.collider.gameObject == _cube)
                     {
-                        Debug.LogError("Click on cube");
+                        SceneManager.LoadScene("MainGame");
                     }
                 }
             }
         }
+        /// <summary>
+        /// Callback for settings button
+        /// </summary>
         private void OnSettingsButtonClicked()
         {
             Debug.LogError("Setiings button clicked");
         }
-
+        /// <summary>
+        /// Callback for achievement button
+        /// </summary>
         private void OnAchievementButtonClicked()
         {
             Debug.LogError("Achievement button clicked");
         }
-
+        /// <summary>
+        /// Link to about button
+        /// </summary>
         private void OnAboutButtonClicked()
         {
             Debug.LogError("About button clicked");
