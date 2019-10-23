@@ -11,7 +11,7 @@ namespace UI
     /// <summary>
     /// Class for control image with swipe effect
     /// </summary>
-    public class SwipeImage : MonoBehaviour, IDragHandler, IEndDragHandler
+    public class SwipeImage : MonoBehaviour, IDragHandler, IEndDragHandler, ISwipeable
     {
         /// image 
         [SerializeField]

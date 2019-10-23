@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Controllers;
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,10 @@ namespace UI
         /// link to swipe image
         [SerializeField]
         private SwipeImage _swipeImage = null;
-        /// list of images and texts
+        
         [SerializeField]
-        private List<ImageData> _images = new List<ImageData>();
+        private ImageCollection _imageCollection = null;
+
         /// index of selected image
         private int _selectedIndex = 0;
         /// key of selected index
@@ -28,7 +30,7 @@ namespace UI
 
         private void Start()
         {
-            _selectedIndex = PlayerPrefs.GetInt(SELECTED_INDEX_KEY, 0);
+            _selectedIndex = SaveManager.Instance.GetIntForKey(SELECTED_INDEX_KEY, 0);
             ShowImage();
         }
 
@@ -41,7 +43,9 @@ namespace UI
         {
             _backButton.onClick.RemoveAllListeners();
         }
-
+        /// <summary>
+        /// Callback for back button
+        /// </summary>
         private void OnBackButtonClicked()
         {
             SceneManager.LoadScene("MainMenu");
@@ -51,17 +55,20 @@ namespace UI
         /// </summary>
         private void ShowImage()
         {
-            _swipeImage.DisplayImage(_images[_selectedIndex], (result) =>
+            if (_selectedIndex >= _imageCollection.Length)
+            {
+                _selectedIndex = 0;
+            }
+            _swipeImage.DisplayImage(_imageCollection.GetItem(_selectedIndex), (result) =>
             {
                 if (result)
                 {
                     _selectedIndex++;
-                    if (_selectedIndex >= _images.Count)
+                    if (_selectedIndex >= _imageCollection.Length)
                     {
                         _selectedIndex = 0;
                     }
-                    PlayerPrefs.SetInt(SELECTED_INDEX_KEY, _selectedIndex);
-                    PlayerPrefs.Save();
+                    SaveManager.Instance.SetIntForKey(SELECTED_INDEX_KEY, _selectedIndex);
                     ShowImage();
                 }
             });

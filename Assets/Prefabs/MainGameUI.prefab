@@ -142,21 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _backButton: {fileID: 6030989766757502970}
   _swipeImage: {fileID: 6030989766372280190}
-  _images:
-  - _text: first
-    _image: {fileID: 21300000, guid: 63560eb1e74874c44b6b9e41a930c6e3, type: 3}
-  - _text: second
-    _image: {fileID: 21300000, guid: 12eb3553a9a0ff24da45cbea4f7d64ae, type: 3}
-  - _text: third
-    _image: {fileID: 21300000, guid: 18dc11a3c527f7a49855b6e3e1607107, type: 3}
-  - _text: fourth
-    _image: {fileID: 21300000, guid: 40e632cc2b7019b4b840fab001d8a8ed, type: 3}
-  - _text: fifth
-    _image: {fileID: 21300000, guid: cbeacc07f842d32439c0bc3bab0e9954, type: 3}
-  - _text: sixth
-    _image: {fileID: 21300000, guid: d776ac277b0cab3439704a2c369240c9, type: 3}
-  - _text: seventh
-    _image: {fileID: 21300000, guid: 683c3d42e73b89b479feae226449f61f, type: 3}
+  _imageCollection: {fileID: 11400000, guid: 62712c36ff836264487258a7fe9c57cf, type: 2}
 --- !u!1 &6030989766757502968
 GameObject:
   m_ObjectHideFlags: 0
