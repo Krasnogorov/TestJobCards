@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Controllers;
+using Data;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace UI
 
         private void Start()
         {
-            _selectedIndex = PlayerPrefs.GetInt(SELECTED_INDEX_KEY, 0);
+            _selectedIndex = SaveManager.Instance.GetIntForKey(SELECTED_INDEX_KEY, 0);
             ShowImage();
         }
 
@@ -60,8 +61,7 @@ namespace UI
                     {
                         _selectedIndex = 0;
                     }
-                    PlayerPrefs.SetInt(SELECTED_INDEX_KEY, _selectedIndex);
-                    PlayerPrefs.Save();
+                    SaveManager.Instance.SetIntForKey(SELECTED_INDEX_KEY, _selectedIndex);
                     ShowImage();
                 }
             });
