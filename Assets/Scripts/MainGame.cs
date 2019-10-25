@@ -23,29 +23,38 @@ namespace UI
         /// collection of sprites
         [SerializeField]
         private ImageCollection _imageCollection = null;
-        /// swipes count label
+        /// left swipes count label
         [SerializeField]
-        private Text _swipeCountLabel = null;
+        private Text _swipeToLeftCountLabel = null;
+        /// rightswipes count label
+        [SerializeField]
+        private Text _swipeToRightCountLabel = null;
         /// index of selected image
         private int _selectedIndex = 0;
-        /// count of swipes
-        private int _swipesCount = 0;
+        /// count of swipes to left
+        private int _swipesToLeftCount = 0;
+        /// count of swipes to right
+        private int _swipesToRightCount = 0;
         /// list with unused indexes of picture
         public List<int> _unusedIndexes = new List<int>();
 
         /// key of selected index
         private const string SELECTED_INDEX_KEY = "selected_key";
-        /// key of count of swipes
-        private const string SWIPE_COUNT_KEY = "swipe_count_key";
+        /// key of count of swipes to left
+        private const string LEFT_SWIPE_COUNT_KEY = "left_swipe_count_key";
+        /// key of count of swipes to right
+        private const string RIGHT_SWIPE_COUNT_KEY = "right_swipe_count_key";
         /// count of shuffles
         private const int SHUFFLE_COUNT = 3;
         
         private void Start()
         {
             _selectedIndex = SaveManager.Instance.GetIntForKey(SELECTED_INDEX_KEY, 0);
-            _swipesCount = SaveManager.Instance.GetIntForKey(SWIPE_COUNT_KEY, 0);
+            _swipesToLeftCount = SaveManager.Instance.GetIntForKey(LEFT_SWIPE_COUNT_KEY, 0);
+            _swipesToRightCount = SaveManager.Instance.GetIntForKey(RIGHT_SWIPE_COUNT_KEY, 0);
             ShowImage();
-            _swipeCountLabel.text = _swipesCount.ToString();
+            _swipeToLeftCountLabel.text = _swipesToLeftCount.ToString();
+            _swipeToRightCountLabel.text = _swipesToRightCount.ToString();
         }
 
         private void OnEnable()
@@ -71,11 +80,11 @@ namespace UI
         {
             int index = isRandom ? GetNextIndex() : _selectedIndex;
             SaveManager.Instance.SetIntForKey(SELECTED_INDEX_KEY, index);
-            _swipeImage.DisplayImage(_imageCollection.GetItem(index), (result) =>
+            _swipeImage.DisplayImage(_imageCollection.GetItem(index), (result, direction) =>
             {
                 if (result)
                 {
-                    UpdateSwipes();
+                    UpdateSwipes(direction);
 
                     ShowImage(true);
 
@@ -111,12 +120,23 @@ namespace UI
                 }
             }
         }
-        private void UpdateSwipes()
+        private void UpdateSwipes(SwipeDirection direction)
         {
-            _swipesCount++;
-            SaveManager.Instance.SetIntForKey(SWIPE_COUNT_KEY, _swipesCount);
+            if (direction == SwipeDirection.Left)
+            {
+                _swipesToLeftCount++;
+                SaveManager.Instance.SetIntForKey(LEFT_SWIPE_COUNT_KEY, _swipesToLeftCount);
 
-            _swipeCountLabel.text = _swipesCount.ToString();
+                _swipeToLeftCountLabel.text = _swipesToLeftCount.ToString();
+            }
+            else if (direction == SwipeDirection.Right)
+            {
+                _swipesToRightCount++;
+                SaveManager.Instance.SetIntForKey(RIGHT_SWIPE_COUNT_KEY, _swipesToRightCount);
+
+                _swipeToRightCountLabel.text = _swipesToRightCount.ToString();
+            }
+            
         }
     }
 }

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    
     /// <summary>
     /// Class for control image with swipe effect
     /// </summary>
@@ -23,7 +24,7 @@ namespace UI
         [SerializeField]
         private Animation _animation = null;
         /// callback for swipe action
-        private Action<bool> _resultCallback;
+        private Action<bool,SwipeDirection> _resultCallback;
         /// start position
         private Vector3 _position = Vector3.zero;
         /// max distance for success swipe effect
@@ -45,7 +46,7 @@ namespace UI
         /// </summary>
         /// <param name="imageData">data of image</param>
         /// <param name="callback">callback for event</param>
-        public void DisplayImage(ImageData imageData, Action<bool> callback)
+        public void DisplayImage(ImageData imageData, Action<bool, SwipeDirection> callback)
         {
             _resultCallback = callback;
             _image.sprite = imageData.Image;
@@ -72,7 +73,7 @@ namespace UI
             {
                 transform.position = _position;
                 _animation.Play();
-                _resultCallback?.Invoke(false);
+                _resultCallback?.Invoke(false, SwipeDirection.None);
             }
         }
 
@@ -86,9 +87,10 @@ namespace UI
                 if (Vector3.Distance(transform.position, _exitPosition) < Mathf.Epsilon)
                 {
                     _isExit = false;
+                    SwipeDirection direction = transform.position.x > _position.x ? SwipeDirection.Right : SwipeDirection.Left;
                     transform.position = _position;
                     _animation.Play();
-                    _resultCallback?.Invoke(true);
+                    _resultCallback?.Invoke(true, direction);
                 }
             }
         }

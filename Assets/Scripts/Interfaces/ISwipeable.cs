@@ -6,8 +6,14 @@ using UnityEngine;
 
 namespace UI
 {
+    public enum SwipeDirection
+    {
+        None,
+        Left,
+        Right
+    }
     public interface ISwipeable
     {
-        void DisplayImage(ImageData imageData, Action<bool> callback);
+        void DisplayImage(ImageData imageData, Action<bool, SwipeDirection> callback);
     }
 }
