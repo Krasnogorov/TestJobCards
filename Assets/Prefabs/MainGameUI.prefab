@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6030989766372280191}
   - component: {fileID: 6030989766372280188}
   - component: {fileID: 6030989766372280190}
+  - component: {fileID: 2124546127}
   m_Layer: 5
   m_Name: SwipeImage
   m_TagString: Untagged
@@ -36,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.20618519, y: 0.25533333}
   m_AnchorMax: {x: 0.79825926, y: 0.753}
-  m_AnchoredPosition: {x: -2.4999695, y: -7.9999695}
+  m_AnchoredPosition: {x: -2.499939, y: -8}
   m_SizeDelta: {x: -7.799988, y: 6.200012}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6030989766372280191
@@ -90,6 +91,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 6030989766372280188}
   _text: {fileID: 6030989766961884228}
+  _animation: {fileID: 2124546127}
+--- !u!111 &2124546127
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6030989766372280066}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: a8b97c7fde4e0ea4cb6730ca813e1909, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 1
+  m_CullingType: 0
 --- !u!1 &6030989766522169948
 GameObject:
   m_ObjectHideFlags: 0
