@@ -20,24 +20,32 @@ namespace UI
         /// link to swipe image
         [SerializeField]
         private SwipeImage _swipeImage = null;
-        
+        /// collection of sprites
         [SerializeField]
         private ImageCollection _imageCollection = null;
-
+        /// swipes count label
+        [SerializeField]
+        private Text _swipeCountLabel = null;
         /// index of selected image
         private int _selectedIndex = 0;
+        /// count of swipes
+        private int _swipesCount = 0;
         /// list with unused indexes of picture
         public List<int> _unusedIndexes = new List<int>();
 
         /// key of selected index
         private const string SELECTED_INDEX_KEY = "selected_key";
+        /// key of count of swipes
+        private const string SWIPE_COUNT_KEY = "swipe_count_key";
         /// count of shuffles
         private const int SHUFFLE_COUNT = 3;
         
         private void Start()
         {
             _selectedIndex = SaveManager.Instance.GetIntForKey(SELECTED_INDEX_KEY, 0);
+            _swipesCount = SaveManager.Instance.GetIntForKey(SWIPE_COUNT_KEY, 0);
             ShowImage();
+            _swipeCountLabel.text = _swipesCount.ToString();
         }
 
         private void OnEnable()
@@ -66,8 +74,11 @@ namespace UI
             _swipeImage.DisplayImage(_imageCollection.GetItem(index), (result) =>
             {
                 if (result)
-                {                    
+                {
+                    UpdateSwipes();
+
                     ShowImage(true);
+
                 }
             });
         }
@@ -99,6 +110,13 @@ namespace UI
                     _unusedIndexes[randIndex] = tmp;
                 }
             }
+        }
+        private void UpdateSwipes()
+        {
+            _swipesCount++;
+            SaveManager.Instance.SetIntForKey(SWIPE_COUNT_KEY, _swipesCount);
+
+            _swipeCountLabel.text = _swipesCount.ToString();
         }
     }
 }
