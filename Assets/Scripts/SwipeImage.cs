@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    
     /// <summary>
     /// Class for control image with swipe effect
     /// </summary>
@@ -19,13 +20,23 @@ namespace UI
         /// textl label
         [SerializeField]
         private Text _text = null;
+        /// animation component
+        [SerializeField]
+        private Animation _animation = null;
         /// callback for swipe action
-        private Action<bool> _resultCallback;
+        private Action<bool,SwipeDirection> _resultCallback;
         /// start position
         private Vector3 _position = Vector3.zero;
         /// max distance for success swipe effect
-        private const float MAX_DISTANCE = 100.0f;
+        private const float MAX_DISTANCE = 300.0f;
+        /// speed of hiding element
+        private const float SPEED = 10000.0f;
+        /// offset for hiding
+        private const float HIDE_DISTANCE = 5000.0f;
 
+        private bool _isExit = false;
+        private Vector3 _exitPosition;
+       
         private void Start()
         {
             _position = transform.position;
@@ -35,7 +46,7 @@ namespace UI
         /// </summary>
         /// <param name="imageData">data of image</param>
         /// <param name="callback">callback for event</param>
-        public void DisplayImage(ImageData imageData, Action<bool> callback)
+        public void DisplayImage(ImageData imageData, Action<bool, SwipeDirection> callback)
         {
             _resultCallback = callback;
             _image.sprite = imageData.Image;
@@ -51,8 +62,37 @@ namespace UI
         {
             float distance = Vector3.Distance(_position, eventData.position);
             
-            transform.position = _position;
-            _resultCallback?.Invoke(distance > MAX_DISTANCE);
+            if (distance > MAX_DISTANCE)
+            {
+                _isExit = true;
+                _exitPosition = eventData.position;
+                _exitPosition.x += (transform.position.x > _position.x) ? HIDE_DISTANCE : -HIDE_DISTANCE;
+                
+            }
+            else
+            {
+                transform.position = _position;
+                _animation.Play();
+                _resultCallback?.Invoke(false, SwipeDirection.None);
+            }
+        }
+
+        private void FixedUpdate()
+        {
+            if (_isExit)
+            {
+                float step = SPEED * Time.deltaTime; 
+                transform.position = Vector3.MoveTowards(transform.position, _exitPosition, step);
+
+                if (Vector3.Distance(transform.position, _exitPosition) < Mathf.Epsilon)
+                {
+                    _isExit = false;
+                    SwipeDirection direction = transform.position.x > _position.x ? SwipeDirection.Right : SwipeDirection.Left;
+                    transform.position = _position;
+                    _animation.Play();
+                    _resultCallback?.Invoke(true, direction);
+                }
+            }
         }
     }
 }
